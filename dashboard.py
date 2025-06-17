@@ -4,11 +4,11 @@ import pandas as pd
 import plotly.express as px
 
 # Upload data
-file = st.file_uploader('data')
+file = st.file_uploader('Upload .xlsx hier')
 
 if file:
     # Read data
-    df = pd.read_excel("Experiment.xlsx").drop('Location', axis=1)
+    df = pd.read_excel(file).drop('Location', axis=1)
 
     # Drop rows without LR
     df.dropna(inplace=True, subset=['Log10 LR DNAxs'])
