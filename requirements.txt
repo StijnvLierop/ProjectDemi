@@ -1,0 +1,5 @@
+seaborn
+matplotlib
+streamlit
+streamlit_dynamic_filters
+pandas
