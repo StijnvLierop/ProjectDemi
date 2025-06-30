@@ -32,7 +32,8 @@ if file:
     # Set plot variable selectors
     variable = st.selectbox(label='boxplot_var', options=VARIABLES)
     second_var = st.selectbox(label='second_boxplot_var', options=VARIABLES)
+    y_var = st.selectbox(label='y_var', options=VARIABLES)
 
     # Show swarmplot
-    fig = px.strip(filtered_df, y='Log10 LR DNAxs', x=variable, color=second_var, hover_data =['Sample number'])
+    fig = px.strip(filtered_df, y=y_var, x=variable, color=second_var, hover_data =['Sample number'])
     st.write(fig)
