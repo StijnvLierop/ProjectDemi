@@ -1,3 +1,4 @@
+import numpy as np
 import streamlit as st
 from streamlit_dynamic_filters import DynamicFilters
 import pandas as pd
@@ -16,8 +17,19 @@ if file:
     # Print
     st.write(f"{len(df)} samples met Log10LRs gevonden")
 
+    # Calculate log concentration
+    df['log10 concentration ng/ml'] = df['Concentration ng/ml'].apply(
+        lambda x: np.log10(x))
+
+    # Create failed LR column
+    df['LR calculation'] = 'successful'
+    df.loc[df['Log10 LR DNAxs'] == -1, 'LR calculation'] = 'failed'
+
     # Variables to filter / select
-    VARIABLES = ['Weight (g)', 'Material', 'Position/ role', 'Volume (ul)', 'Movement (rpm) ', 'Duraction of contact (min)', 'Concentration ng/ml']
+    VARIABLES = ['Weight (g)', 'Material', 'Position/ role', 'Volume (ul)',
+                 'Movement (rpm) ', 'Duraction of contact (min)',
+                 'Concentration ng/ml', 'log10 concentration ng/ml',
+                 'Log10 LR DNAxs']
 
     # Set filters
     dynamic_filters = DynamicFilters(df=df, filters=VARIABLES)
@@ -30,10 +42,23 @@ if file:
     filtered_df = dynamic_filters.filter_df()
 
     # Set plot variable selectors
-    variable = st.selectbox(label='boxplot_var', options=VARIABLES)
-    second_var = st.selectbox(label='second_boxplot_var', options=VARIABLES)
-    y_var = st.selectbox(label='y_var', options=VARIABLES)
+    variable = st.selectbox(label='var 1', options=VARIABLES)
+    second_var = st.selectbox(label='var 2', options=VARIABLES)
+    y_var = st.selectbox(label='y var', options=VARIABLES)
+
+    # Filter out unsuccessful LRs
+    filter_failed_LRs = st.checkbox(label='filter failed LRs')
+    if filter_failed_LRs:
+        filtered_df = filtered_df[filtered_df['LR calculation'] != 'failed']
 
     # Show swarmplot
     fig = px.strip(filtered_df, y=y_var, x=variable, color=second_var, hover_data =['Sample number'])
+    st.write(fig)
+
+    # Show boxplot
+    fig = px.box(filtered_df, y=y_var, x=variable, color=second_var, hover_data =['Sample number'])
+    st.write(fig)
+
+    # Show correlation matrix
+    fig = px.imshow(filtered_df.corr(numeric_only=True), text_auto=True)
     st.write(fig)
