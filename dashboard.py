@@ -26,8 +26,8 @@ if file:
     df.loc[df['Log10 LR DNAxs'] == -1, 'LR calculation'] = 'failed'
 
     # Variables to filter / select
-    VARIABLES = ['Weight (g)', 'Material', 'Position/ role', 'Volume (ul)',
-                 'Movement (rpm) ', 'Duraction of contact (min)',
+    VARIABLES = ['Weight (g)', 'Material', 'Position/role', 'Volume (ul)',
+                 'Movement (rpm) ', 'Duration of contact (min)',
                  'Concentration ng/ml', 'log10 concentration ng/ml',
                  'Log10 LR DNAxs']
 
