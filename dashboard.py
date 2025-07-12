@@ -27,7 +27,7 @@ if file:
 
     # Variables to filter / select
     VARIABLES = ['Weight (g)', 'Material', 'Position/role', 'Volume (ul)',
-                 'Movement (rpm) ', 'Duration of contact (min)',
+                 'Movement (rpm)', 'Duration of contact (min)',
                  'Concentration ng/ml', 'log10 concentration ng/ml',
                  'Log10 LR DNAxs']
 
